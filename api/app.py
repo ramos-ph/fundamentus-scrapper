@@ -8,12 +8,13 @@ app = Flask(__name__)
 @app.route('/payments', methods=['GET'])
 def index():
 	symbols = request.args.get('symbols', '').split(',')
+	unique_symbols = set(symbols)
 
 	try:
-		if len(symbols) > 5:
+		if len(unique_symbols) > 5:
 			raise OutOfBoundsError
 
-		scrapped_payment_dates, errors = get_stocks_payment_dates(symbols)
+		scrapped_payment_dates, errors = get_stocks_payment_dates(unique_symbols)
 		payments = format_payments_to_json(scrapped_payment_dates)
 
 		return jsonify({'data': payments, 'errors': errors})
