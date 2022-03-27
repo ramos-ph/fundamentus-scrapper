@@ -13,8 +13,10 @@ def index():
 		if len(symbols) > 5:
 			raise OutOfBoundsError
 
-		scrapped_payment_dates = get_stocks_payment_dates(symbols)
-		return format_payments_to_json(scrapped_payment_dates)
+		scrapped_payment_dates, errors = get_stocks_payment_dates(symbols)
+		payments = format_payments_to_json(scrapped_payment_dates)
+
+		return jsonify({'data': payments, 'errors': errors})
 	except OutOfBoundsError as e:
 		return make_response({'error': e.message}, e.status_code)
 	except:
