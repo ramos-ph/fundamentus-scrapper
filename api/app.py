@@ -5,13 +5,15 @@ from errors import OutOfBoundsError
 
 app = Flask(__name__)
 
+LIMIT_OF_SYMBOLS_PER_REQUEST = 5
+
 @app.route('/payments', methods=['GET'])
 def index():
 	symbols = request.args.get('symbols', '').split(',')
 	unique_symbols = set(symbols)
 
 	try:
-		if len(unique_symbols) > 5:
+		if len(unique_symbols) > LIMIT_OF_SYMBOLS_PER_REQUEST:
 			raise OutOfBoundsError
 
 		scrapped_payment_dates, errors = get_stocks_payment_dates(unique_symbols)
