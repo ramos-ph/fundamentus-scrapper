@@ -63,31 +63,34 @@ Example:
 ```json
 // GET: http://localhost:5000/payments?symbols=ITUB4,ITSA4
 
-[
-  {
-    "symbol": "ITUB4",
-    "pending_earnings": [
-      {
-        "value": "0,0177",
-        "date": "01/04/2022",
-        "type": "JRS CAP PROPRIO"
-      }
-    ]
-  },
-  {
-    "symbol": "ITSA4",
-    "pending_earnings": [
-      {
-        "value": "0,1134",
-        "date": "29/12/2023",
-        "type": "JRS CAP PROPRIO"
-      },
-      {
-        "value": "0,0235",
-        "date": "01/04/2022",
-        "type": "JRS CAP PROPRIO"
-      }
-    ]
-  }
-]
+{
+	"data": [
+		{
+			"symbol": "ITUB4",
+			"pending_earnings": [
+				{
+					"value": "0,0177",
+					"date": "01/04/2022",
+					"type": "JRS CAP PROPRIO"
+				}
+			]
+		},
+		{
+			"symbol": "ITSA4",
+			"pending_earnings": [
+				{
+					"value": "0,1134",
+					"date": "29/12/2023",
+					"type": "JRS CAP PROPRIO"
+				},
+				{
+					"value": "0,0235",
+					"date": "01/04/2022",
+					"type": "JRS CAP PROPRIO"
+				}
+			]
+		}
+	],
+	"errors": []
+}
 ```

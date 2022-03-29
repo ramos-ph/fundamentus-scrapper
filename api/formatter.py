@@ -34,4 +34,4 @@ def format_dataframe_to_json(df):
 			'pending_earnings': pending_earnings.to_dict(orient='records')
 		})
 
-	return json.dumps(payments)
+	return payments
