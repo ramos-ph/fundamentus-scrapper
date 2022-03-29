@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, make_response, request
-from scrapper import get_stocks_payment_dates
+from scrapper import get_payment_dates
 from formatter import format_payments_to_json
 from errors import OutOfBoundsError
 
@@ -16,7 +16,7 @@ def index():
 		if len(unique_symbols) > LIMIT_OF_SYMBOLS_PER_REQUEST:
 			raise OutOfBoundsError
 
-		scrapped_payment_dates, errors = get_stocks_payment_dates(unique_symbols)
+		scrapped_payment_dates, errors = get_payment_dates(unique_symbols)
 		payments = format_payments_to_json(scrapped_payment_dates)
 
 		return jsonify({'data': payments, 'errors': errors})
