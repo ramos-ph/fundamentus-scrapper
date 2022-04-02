@@ -1,32 +1,34 @@
+import pandas as pd
 import requests
-import re
 from bs4 import BeautifulSoup
-from errors import ScrapError
 
-NEW_LINE_OR_DATE_PATTERN = r'\n|(?<=\d{2}/\d{2}/\d{4})\s'
+COLUMNS = ['symbol', 'pub_date', 'value', 'type', 'payment', 'per_share']
 
-def get_stocks_payment_dates(symbol):
+def get_stocks_payment_dates(symbols):
+	df = pd.DataFrame(columns=COLUMNS)
+	for symbol in symbols:
+		df = df.append(get_payment_dates_for(symbol))
+	return df
+
+def get_payment_dates_for(symbol):
 	request_url = f'https://www.fundamentus.com.br/proventos.php?tipo=2&papel={symbol}'
-
-	try:
-		html = requests.get(request_url, headers={'User-Agent': 'Mozilla/5.0'})
-		return scrap_html(html.text, symbol)
-	except:
-		raise ScrapError(symbol)
-
+	html = requests.get(request_url, headers={'User-Agent': 'Mozilla/5.0'})
+	data = scrap_html(html.text, symbol)
+	return pd.DataFrame(columns=COLUMNS, data=data)
 
 def scrap_html(html, symbol):
 	soup = BeautifulSoup(html, 'html.parser')
-	table = soup.find(id='resultado')
+	_, *rows = soup.find_all('tr')
+	return scrap_rows(rows, symbol)
 
-	rows = []
-	for tableRow in table.tbody:
-		if not tableRow == '\n':
-			_, value, type, date, _ = parse_rows_to_array(tableRow)
-			rows.append([symbol, value, type, date])
-	return rows
+def scrap_rows(rows, symbol):
+	data = []
+	for row in rows:
+		data.append([symbol] + scrap_row(row))
+	return data
 
+def scrap_row(row):
+	return [element.text.strip() for element in row.find_all('td') if should_include(element.text)]
 
-def parse_rows_to_array(tableRow):
-	content = re.split(NEW_LINE_OR_DATE_PATTERN, tableRow.text)
-	return [tableRow for tableRow in content if tableRow]
+def should_include(element):
+	return not (element == "\n"	or element.isspace())
