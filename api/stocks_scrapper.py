@@ -4,13 +4,7 @@ from bs4 import BeautifulSoup
 
 COLUMNS = ['symbol', 'pub_date', 'value', 'type', 'payment', 'per_share']
 
-def get_stocks_payment_dates(symbols):
-	df = pd.DataFrame(columns=COLUMNS)
-	for symbol in symbols:
-		df = df.append(get_payment_dates_for(symbol))
-	return df
-
-def get_payment_dates_for(symbol):
+def get_stock_payment_dates(symbol):
 	request_url = f'https://www.fundamentus.com.br/proventos.php?tipo=2&papel={symbol}'
 	html = requests.get(request_url, headers={'User-Agent': 'Mozilla/5.0'})
 	data = scrap_html(html.text, symbol)
