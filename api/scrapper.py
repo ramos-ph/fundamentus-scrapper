@@ -6,7 +6,7 @@ from stocks_scrapper import get_stock_payment_dates
 
 REAL_ESTATE_PATTERN = r'\w{4}11'
 DATE_PATTERN = '\d{2}/\d{2}/\d{4}'
-COLUMNS = ['symbol', 'payment', 'value', 'type']
+COLUMNS = ['symbol', 'date', 'payment', 'value', 'type']
 
 def get_symbols_payment_dates(symbols):
 	df = pd.DataFrame(columns=COLUMNS)

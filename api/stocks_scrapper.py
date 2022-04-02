@@ -2,7 +2,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-COLUMNS = ['symbol', 'pub_date', 'value', 'type', 'payment', 'per_share']
+COLUMNS = ['symbol', 'date', 'value', 'type', 'payment', 'per_share']
 
 def get_stock_payment_dates(symbol):
 	request_url = f'https://www.fundamentus.com.br/proventos.php?tipo=2&papel={symbol}'
