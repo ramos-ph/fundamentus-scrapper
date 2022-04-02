@@ -32,9 +32,9 @@ def format_payments_to_json(df):
 	return payments
 
 def get_pending_earnings_for(symbol, df):
-	df = df[(df['symbol'] == symbol) & (df['payment'].str.contains(DATE_PATTERN))] & \
-		df.assign(payment_timestamp=pd.to_datetime(df['payment'], format='%d/%m/%Y')) & \
-		df[df['payment_timestamp'] >= datetime.now()]
+	df = df[(df['symbol'] == symbol) & (df['payment'].str.contains(DATE_PATTERN))]
+	df = df.assign(payment_timestamp=pd.to_datetime(df['payment'], format='%d/%m/%Y'))
+	df = df[df['payment_timestamp'] >= datetime.now()]
 
 	return {
 		'symbol': symbol,
