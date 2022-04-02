@@ -1,8 +1,8 @@
 import pandas as pd
 import re
 
-from format_payments_to_json import format_payments_to_json
-from get_payment_dates import get_real_estate_payment_dates, get_stock_payment_dates
+from .format_payments_to_json import format_payments_to_json
+from .get_payment_dates import get_real_estate_payment_dates, get_stock_payment_dates
 
 COLUMNS = ['symbol', 'date', 'payment', 'value', 'type']
 REAL_ESTATE_PATTERN = r'\w{4}11'
